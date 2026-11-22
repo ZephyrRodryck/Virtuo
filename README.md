@@ -60,25 +60,23 @@ There is no pre-recorded audio. Every sound is synthesised from the physics of t
 
 ## How It Works
 
-```mermaid
-flowchart LR
-    A["Camera\n960x540 @ 30fps"] --> B["Hand Tracking\nMediaPipe Worker\n480px frames"]
-    B --> C["Pose Estimation\n21 landmarks x 2 hands\nOne Euro filtering"]
-    C --> D["Gesture Engine\nState machine\nCrossing detection"]
-    D --> E["String Physics\nMersenne / Hooke\nFD simulation"]
-    D --> F["Audio Worklet\nDigital waveguide\nd'Alembert solution"]
-    E --> G["Canvas Renderer\nWaveform shapes\nHand skeleton"]
-    F --> G
-    F --> H["Audio Output\nCompressor / Gain\nAnalyser"]
-
-    style A fill:#0c0c1a,stroke:#1c1c30,color:#e2e2f0
-    style B fill:#0c0c1a,stroke:#1c1c30,color:#e2e2f0
-    style C fill:#0c0c1a,stroke:#1c1c30,color:#e2e2f0
-    style D fill:#0c0c1a,stroke:#8080ff,color:#e2e2f0
-    style E fill:#0c0c1a,stroke:#8080ff,color:#e2e2f0
-    style F fill:#0c0c1a,stroke:#8080ff,color:#e2e2f0
-    style G fill:#0c0c1a,stroke:#1c1c30,color:#e2e2f0
-    style H fill:#0c0c1a,stroke:#1c1c30,color:#e2e2f0
+```
+  Camera          Hand Tracking       Pose Estimation       Gesture Engine
+  960x540      ──▶  MediaPipe       ──▶  21 landmarks    ──▶  State machine
+  @ 30 fps         Web Worker            x 2 hands            Crossing detection
+                   480px frames          One Euro filter            │
+                                                            ┌──────┴──────┐
+                                                            ▼              ▼
+                                                     String Physics    Audio Worklet
+                                                     Mersenne/Hooke    Waveguide
+                                                     FD simulation     d'Alembert
+                                                            │              │
+                                                            ▼              │
+                                                     Canvas Renderer ◀─────┘
+                                                     Waveform shapes       │
+                                                     Hand skeleton         ▼
+                                                                     Audio Output
+                                                                     Compressor/Gain
 ```
 
 **Pipeline at a glance:**
