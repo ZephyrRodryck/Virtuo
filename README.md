@@ -1,14 +1,11 @@
-<div align="center">
-
 # VIRTUO
 
 **Gesture-controlled virtual string instrument**
 
 Create strings in the air. Play them with your hands.
-
 Physics-driven sound from gesture alone — no MIDI, no keyboard, no touchscreen.
 
-<br>
+&nbsp;
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.6-000?style=flat-square&logo=next.js)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19.3-61DAFB?style=flat-square&logo=react&logoColor=000)](https://react.dev)
@@ -16,9 +13,7 @@ Physics-driven sound from gesture alone — no MIDI, no keyboard, no touchscreen
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-Hand_Tracking-0F9D58?style=flat-square&logo=google&logoColor=fff)](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker)
 [![Tests](https://img.shields.io/badge/tests-26_passing-8080ff?style=flat-square)](#testing)
 
-</div>
-
-<br>
+---
 
 ## What is VIRTUO?
 
@@ -28,7 +23,7 @@ Each string is a bidirectional digital waveguide running at audio sample rate in
 
 There is no pre-recorded audio. Every sound is synthesised from the physics of the interaction at the moment it happens.
 
-<br>
+---
 
 ## Visual Showcase
 
@@ -42,7 +37,7 @@ There is no pre-recorded audio. Every sound is synthesised from the physics of t
 > | Hand tracking | The camera view showing hand landmark tracking and pinch detection meter | `docs/screenshots/tracking.png` |
 > | Physics section | The landing page physics scene with interactive sliders for tension, length and density | `docs/screenshots/physics.png` |
 
-<br>
+---
 
 ## Core Capabilities
 
@@ -61,7 +56,7 @@ There is no pre-recorded audio. Every sound is synthesised from the physics of t
 | **Physical audio synthesis** | Bidirectional digital waveguide in an AudioWorklet — no samples, no oscillators. Each string is a pair of delay lines with inverting reflections and a one-pole loss filter. |
 | **Mouse / touch fallback** | Full interaction via pointer input when no camera is available. Click = pinch, drag to draw, move across to pluck. |
 
-<br>
+---
 
 ## How It Works
 
@@ -96,7 +91,7 @@ flowchart LR
 6. **AudioWorklet** synthesises each string as a bidirectional digital waveguide at audio sample rate. The same delay-line displacement is posted back to the main thread at ~60 Hz for rendering.
 7. **Canvas** draws string waveforms, hand skeletons, pinch meters and gesture labels at display refresh rate.
 
-<br>
+---
 
 ## Physics and Mathematics
 
@@ -108,10 +103,10 @@ $$f_0 = \frac{1}{2L}\sqrt{\frac{T}{\mu}}$$
 
 | Symbol | Meaning | Unit |
 |:---:|:---|:---|
-| *f*&#8320; | Fundamental frequency | Hz |
-| *L* | Vibrating string length | m |
-| *T* | Tension | N |
-| *&mu;* | Linear mass density | kg/m |
+| f₀ | Fundamental frequency | Hz |
+| L | Vibrating string length | m |
+| T | Tension | N |
+| μ | Linear mass density | kg/m |
 
 The pitch of each string follows directly from its physical length on screen (mapped to metres via a stage scale of 1.2 m across the viewport width), its tension and its mass density. Sliding a finger along a stopped string shortens the vibrating length, raising the pitch. Moving an endpoint changes the total length.
 
@@ -119,7 +114,7 @@ The pitch of each string follows directly from its physical length on screen (ma
 
 $$T_{\text{bent}} = T + EA \cdot \frac{\Delta L}{L}$$
 
-Pulling a stopped string sideways stretches it. The tension increase is proportional to the elongation, with the stretch ratio *EA/T* set to 140 (typical of steel strings). Tension is capped at 2x the open-string value to prevent unrealistic behaviour.
+Pulling a stopped string sideways stretches it. The tension increase is proportional to the elongation, with the stretch ratio EA/T set to 140 (typical of steel strings). Tension is capped at 2x the open-string value to prevent unrealistic behaviour.
 
 ### Digital waveguide — d'Alembert's solution
 
@@ -127,19 +122,19 @@ The 1-D wave equation has the general solution:
 
 $$y(x, t) = R(x - ct) + L(x + ct)$$
 
-Two travelling waves — *R* moving toward the bridge, *L* toward the nut — are stored as circular delay lines. At each end, the wave inverts (fixed boundary). At the bridge, a one-pole low-pass filter removes high-frequency energy on each reflection, producing the natural darkening of a decaying string tone.
+Two travelling waves — R moving toward the bridge, L toward the nut — are stored as circular delay lines. At each end, the wave inverts (fixed boundary). At the bridge, a one-pole low-pass filter removes high-frequency energy on each reflection, producing the natural darkening of a decaying string tone.
 
 The round-trip delay sets the pitch: `delay = sampleRate / f₀`, with fractional-sample interpolation for tuning accuracy. The same delay-line state is sampled at 33 points and posted to the main thread for drawing — the visual string shape is literally the audio waveform.
 
 ### Mode amplitudes
 
-Plucking at position *p* along the string excites harmonics with amplitudes:
+Plucking at position p along the string excites harmonics with amplitudes:
 
 $$A_n = \frac{2}{n^2 \pi^2 p(1-p)} \sin(n\pi p)$$
 
 Plucking at the midpoint silences all even harmonics. Plucking near the bridge emphasises higher overtones, producing a brighter tone.
 
-<br>
+---
 
 ## Gesture Reference
 
@@ -156,7 +151,7 @@ Plucking at the midpoint silences all even harmonics. Plucking near the bridge e
 | **Mute** | Open palm near a string | Damps the string to silence | All four fingers must be extended |
 | **Grab endpoint** | Pinch near an endpoint of a non-fixed string | Drag to reposition, changing length and pitch | Freehand mode only |
 
-<br>
+---
 
 ## Technology Stack
 
@@ -174,7 +169,7 @@ Plucking at the midpoint silences all even harmonics. Plucking near the bridge e
 | **Canvas** | 2D Canvas API | String waveforms, hand overlays, gesture visualisation |
 | **Testing** | Node.js built-in test runner | Physics, waveguide tuning and gesture logic tests |
 
-<br>
+---
 
 ## Project Structure
 
@@ -231,7 +226,7 @@ virtuo-app/
     └── gesture.test.ts           # 7 tests: crossing, speed gate, side re-arm, creation guards
 ```
 
-<br>
+---
 
 ## Installation
 
@@ -272,7 +267,7 @@ If the postinstall model download fails (network issues), hand tracking will not
 | `npm run typecheck` | TypeScript strict check |
 | `npm run lint` | ESLint |
 
-<br>
+---
 
 ## How to Use VIRTUO
 
@@ -298,7 +293,7 @@ A scroll-driven experience with seven sections — Hero, Concept, Physics, Gestu
 | `Delete` / `Backspace` | Remove last created string |
 | `Shift` (hold) | Open palm mute (pointer mode) |
 
-<br>
+---
 
 ## Testing
 
@@ -322,7 +317,7 @@ npm run lint        # ESLint — zero warnings
 npm run build       # Production build — compiles successfully
 ```
 
-<br>
+---
 
 ## Known Limitations
 
@@ -336,7 +331,7 @@ npm run build       # Production build — compiles successfully
 | **Audio latency** | AudioWorklet adds one block (128 samples, ~2.7 ms at 48 kHz) of inherent latency. Total gesture-to-sound latency includes the tracking frame interval. |
 | **No persistence** | Strings and instrument state are not saved between sessions. Only calibration data is stored in localStorage. |
 
-<br>
+---
 
 ## Future Development
 
@@ -350,7 +345,7 @@ Genuine opportunities based on the current implementation — not committed feat
 - **Alternative input** — gamepad or switch input for accessibility
 - **PWA support** — offline capability, since all processing is local
 
-<br>
+---
 
 ## Architecture Notes
 
@@ -360,7 +355,7 @@ Genuine opportunities based on the current implementation — not committed feat
 - **Calibration-aware thresholds.** Pinch detection uses per-user calibrated thresholds with hysteresis (enter ≠ exit) to prevent flickering.
 - **Visual = audio.** The AudioWorklet posts delay-line displacement shapes to the main thread. The canvas draws these directly — the visible waveform is the actual audio waveform.
 
-<br>
+---
 
 ## Design Tokens
 
@@ -375,16 +370,6 @@ Genuine opportunities based on the current implementation — not committed feat
 
 Typography: **Space Grotesk** (body) · **JetBrains Mono** (code and labels)
 
-<br>
-
 ---
 
-<div align="center">
-
-**VIRTUO**
-
-*Your hands are the instrument.*
-
-</div>
-#   V i r t u o  
- 
+**VIRTUO** — *Your hands are the instrument.*
